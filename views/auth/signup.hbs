@@ -20,5 +20,8 @@
     <button>Create account</button>
  
     {{!-- error message will be added here --}}
+    {{#if errorMessage}}
+    {{errorMessage}}
+    {{/if}}
   </form>
 </div>

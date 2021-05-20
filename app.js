@@ -10,9 +10,22 @@ const path = require('path');
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 const app = express();
 
+    app.use(
+        session({
+            secret: 'parangaricutirimicuaro',
+            resave: false,
+            saveUninitialized: true,
+            cookie: { maxAge: 3600000 }, // 60 * 60* 1000 ms === 1 min
+            store: new MongoStore({
+                mongooseConnection: mongoose.connection,
+                ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
+            })
+        })
+    );
 // require database configuration
 require('./configs/db.config');
 
